@@ -1,83 +1,59 @@
-﻿using Utilities;
+﻿using System;
+using EmployeeDemo;
+using ExtensionMethodsDemo;
+using Utilities;
 
-Student student = new Student("Alice", 20);
-
-Console.WriteLine($"Double The Age: {student.DoubleTheAge()}");
-
-ParametersDemo options = new ParametersDemo();
-
-options.Configure(timeout: 10, verbose: true);
-
-int count = 10;
-
-options.SetCount(out count);
-
-// side effect
-
-Console.WriteLine($"Count: {count}");
-
-// params demo
-
-int total = options.ParamsDemo(1, 2, 3);
-Console.WriteLine($"Total: {total}");
-
-total = options.ParamsDemo(1, 2, 3, 4, 5);
-Console.WriteLine($"Total: {total}");
-
-
-// var keyword demo
-    public abstract class Animal {}
-    public class Dog : Animal {}
-
-    // Animal tex = new Dog();
-    // Dog bunny = new Dog();
-    // var doggo = new Dog();
-
-    // SOLID
-    // D - Dependency Inversion Principle
-    // left side -> Generalized
-    // right side -> Specialized
-
-
-// Method Overloading
-class Logger
+namespace MethodsDemo
 {
-
-    public void Log(string message) { }
-
-    public int Log(int message) { return 0; }
-
-}
-
-
-class ParametersDemo
-{
-    public void Configure(int timeout = 30, bool verbose = false)
+    public class Program
     {
-        Console.WriteLine($"Timeout set to: {timeout} seconds");
-        Console.WriteLine($"Verbose mode: {verbose}");
-
-    }
-
-    public void SetCount(out int count)
-    {
-        // database
-        // api
-        count = 42;
-    }
-
-
-    public int ParamsDemo(params int[] numbers)
-    {
-        // syntax sugar
-        var sum = 0;
-
-        foreach (var number in numbers)
+        static void Main(string[] args)
         {
-            sum += number;
+            EmployeeDemo();
+            StudentDemo();
         }
 
-        return sum;
+        static void EmployeeDemo()
+        {
+            Employee dave = new Employee(1, "Dave", "Smith", 30);
+
+            dave.Print();
+            dave.DoubleTheAge();
+            dave.Print();
+        }
+
+        static void StudentDemo()
+        {
+            var alice = new Student("Alice", 20);
+            alice.Print();
+
+            var bob = new Student("Bob", 22);
+            bob.Print();
+
+            var dave = new Student("Dave", 24);
+            dave.Print();
+
+            var charlie = new Student("Charlie", 26);
+            charlie.Print();
+        }
     }
 
+    class Student
+    {
+        public static int NumberOfStudents = 0;
+        public string Name { get; set; }
+        public int Age { get; set; }
+
+        public Student(string Name, int Age)
+        {
+            this.Name = Name;
+            this.Age = Age;
+            NumberOfStudents++;
+        }
+
+        public void Print()
+        {
+            Console.WriteLine($"Name: {this.Name}, Age: {this.Age} Student Count: {NumberOfStudents}");
+        }
+    }
 }
