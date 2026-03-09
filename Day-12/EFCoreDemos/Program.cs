@@ -1,34 +1,33 @@
-﻿// using Microsoft.Data.SqlClient;
-
-
-// string query = "SELECT * FROM Employees WHERE Salary > 50000";
-// SqlConnection connection = new SqlConnection("YourConnectionStringHere");
-// SqlCommand cmd = new SqlCommand(query, connection);
-// SqlDataReader reader = cmd.ExecuteReader();
-// List<Employee> employees = new List<Employee>();
-// while (reader.Read())
-// {
-//     employees.Add(new Employee { Name = (string)reader["Name"], Salary = (decimal)reader["Salary"] });
-// }
-
-
-// class Employee
-// {
-//     public string Name { get; set; }
-//     public decimal Salary { get; set; }
-// }
-
+﻿using System;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 
-CrmContext _context = new CrmContext();
-
-var customers = _context.Customers
-    .Where(e => e.Age > 20)
-    .ToList();
-
-foreach (var customer in customers)
+class Program
 {
-    Console.WriteLine($"Id: {customer.Id} Customer: {customer.Name}, Age: {customer.Age}");
+    static void Main(string[] args)
+    {
+        try
+        {
+            using var context = new CrmContext();
+
+            Console.WriteLine("Connected Successfully ✅");
+
+            var customers = context.Customers
+                .Where(c => c.Age > 20)
+                .ToList();
+
+            foreach (var customer in customers)
+            {
+                Console.WriteLine(
+                    $"Id: {customer.Id}, Name: {customer.Name}, Age: {customer.Age}"
+                );
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine("Error: " + ex.Message);
+        }
+    }
 }
 
 class CrmContext : DbContext
@@ -37,16 +36,14 @@ class CrmContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        var connectionString =
-    "server=localhost;port=3306;database=customerdb;user=root;password=7719863765";
+        // ✅ Only database name changed (NEW DATABASE)
+        string connectionString =
+            "server=localhost;port=3306;database=crm_efcore_db;user=root;password=7719863765";
 
-optionsBuilder.UseMySql(
-    connectionString,
-    ServerVersion.AutoDetect(connectionString)
-);
-
-        // optionsBuilder.UseMySQL("YourConnectionStringHere");
-        // optionsBuilder.UsePostgreql("YourConnectionStringHere");
+        optionsBuilder.UseMySql(
+            connectionString,
+            ServerVersion.AutoDetect(connectionString)
+        );
     }
 }
 
