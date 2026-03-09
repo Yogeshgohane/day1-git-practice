@@ -1,0 +1,30 @@
+@WebApiDemo_HostAddress = http://localhost:5000
+
+## Passing
+### Post requets for Create Customer DTO
+POST {{WebApiDemo_HostAddress}}/api/v1/customer
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c
+Cookies: sessionId=abc123;asdfasdf=asdfasd
+{
+    "name": "1",
+    "email": "john.doe@example.com"
+}
+
+POST {{WebApiDemo_HostAddress}}/api/v1/customer
+Content-Type: application/json
+
+{
+    "name": "1",
+    "email": "john.doe@example.com"
+}
+
+### GET request for Customer
+GET {{WebApiDemo_HostAddress}}/api/v1/customer
+
+### GET request for customer by id
+GET {{WebApiDemo_HostAddress}}/api/v1/customer/1
+
+
+GET {{WebApiDemo_HostAddress}}/api/v1/customer?id=1
+### GET request for customer by city/region
